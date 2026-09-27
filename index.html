@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auth App</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ── NAV ───────────────────────────────────────────────────────────── -->
+  <nav class="navbar">
+    <span class="brand">AuthApp</span>
+    <div class="nav-links">
+      <button class="nav-btn active" data-tab="login">Login</button>
+      <button class="nav-btn" data-tab="register">Register</button>
+    </div>
+    <button id="logoutBtn" class="btn btn-outline hidden">Logout</button>
+  </nav>
+
+  <!-- ── MAIN ──────────────────────────────────────────────────────────── -->
+  <main class="container">
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast hidden"></div>
+
+    <!-- Login form -->
+    <section id="loginSection" class="card">
+      <h2>Welcome back</h2>
+      <p class="subtitle">Sign in to your account</p>
+      <form id="loginForm">
+        <div class="field">
+          <label for="loginUsername">Username</label>
+          <input id="loginUsername" type="text" placeholder="Enter username" autocomplete="username" required />
+        </div>
+        <div class="field">
+          <label for="loginPassword">Password</label>
+          <input id="loginPassword" type="password" placeholder="Enter password" autocomplete="current-password" required />
+        </div>
+        <button type="submit" class="btn btn-primary" id="loginSubmit">Sign in</button>
+      </form>
+      <p class="switch-hint">No account? <a href="#" data-tab="register">Register here</a></p>
+    </section>
+
+    <!-- Register form -->
+    <section id="registerSection" class="card hidden">
+      <h2>Create account</h2>
+      <p class="subtitle">Sign up for free</p>
+      <form id="registerForm">
+        <div class="field">
+          <label for="regUsername">Username</label>
+          <input id="regUsername" type="text" placeholder="Choose a username" autocomplete="username" required />
+        </div>
+        <div class="field">
+          <label for="regPassword">Password</label>
+          <input id="regPassword" type="password" placeholder="Choose a password" autocomplete="new-password" required />
+        </div>
+        <div class="field">
+          <label for="regConfirm">Confirm Password</label>
+          <input id="regConfirm" type="password" placeholder="Repeat password" autocomplete="new-password" required />
+        </div>
+        <button type="submit" class="btn btn-primary" id="registerSubmit">Create account</button>
+      </form>
+      <p class="switch-hint">Already have an account? <a href="#" data-tab="login">Login here</a></p>
+    </section>
+
+    <!-- Dashboard (shown after login) -->
+    <section id="dashboardSection" class="card hidden">
+      <div class="dashboard-header">
+        <div class="avatar" id="avatarCircle"></div>
+        <div>
+          <h2 id="welcomeMsg">Welcome!</h2>
+          <p class="subtitle">You are signed in.</p>
+        </div>
+      </div>
+      <div class="info-box">
+        <span class="info-label">Session token</span>
+        <code id="tokenDisplay" class="token-text"></code>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
