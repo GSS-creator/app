@@ -8,23 +8,28 @@
 </head>
 <body>
 
-  <!-- ── NAV ───────────────────────────────────────────────────────────── -->
+  <!-- ── NAV ─────────────────────────────────────────────────────────────── -->
   <nav class="navbar">
     <span class="brand">AuthApp</span>
-    <div class="nav-links">
+    <div class="nav-links" id="authNav">
       <button class="nav-btn active" data-tab="login">Login</button>
       <button class="nav-btn" data-tab="register">Register</button>
+    </div>
+    <div class="nav-links hidden" id="dashNav">
+      <button class="nav-btn active" data-dash="profile">Profile</button>
+      <button class="nav-btn" data-dash="password">Password</button>
+      <button class="nav-btn" data-dash="users">Users</button>
+      <button class="nav-btn" data-dash="danger">Danger Zone</button>
     </div>
     <button id="logoutBtn" class="btn btn-outline hidden">Logout</button>
   </nav>
 
-  <!-- ── MAIN ──────────────────────────────────────────────────────────── -->
+  <!-- ── MAIN ─────────────────────────────────────────────────────────────── -->
   <main class="container">
 
-    <!-- Toast notification -->
     <div id="toast" class="toast hidden"></div>
 
-    <!-- Login form -->
+    <!-- ── Login ─────────────────────────────────────────────────────────── -->
     <section id="loginSection" class="card">
       <h2>Welcome back</h2>
       <p class="subtitle">Sign in to your account</p>
@@ -42,7 +47,7 @@
       <p class="switch-hint">No account? <a href="#" data-tab="register">Register here</a></p>
     </section>
 
-    <!-- Register form -->
+    <!-- ── Register ──────────────────────────────────────────────────────── -->
     <section id="registerSection" class="card hidden">
       <h2>Create account</h2>
       <p class="subtitle">Sign up for free</p>
@@ -64,19 +69,96 @@
       <p class="switch-hint">Already have an account? <a href="#" data-tab="login">Login here</a></p>
     </section>
 
-    <!-- Dashboard (shown after login) -->
-    <section id="dashboardSection" class="card hidden">
-      <div class="dashboard-header">
-        <div class="avatar" id="avatarCircle"></div>
-        <div>
-          <h2 id="welcomeMsg">Welcome!</h2>
-          <p class="subtitle">You are signed in.</p>
+    <!-- ── Dashboard ─────────────────────────────────────────────────────── -->
+    <section id="dashboardSection" class="hidden">
+
+      <!-- Profile panel -->
+      <div id="panel-profile" class="card">
+        <div class="dashboard-header">
+          <div class="avatar" id="avatarCircle"></div>
+          <div>
+            <h2 id="welcomeMsg">Welcome!</h2>
+            <p class="subtitle" id="memberSince"></p>
+          </div>
+        </div>
+        <div class="info-box">
+          <span class="info-label">Session token</span>
+          <code id="tokenDisplay" class="token-text"></code>
+        </div>
+        <button id="logoutAllBtn" class="btn btn-outline" style="margin-top:16px;width:100%;">
+          Logout from all devices
+        </button>
+      </div>
+
+      <!-- Change password panel -->
+      <div id="panel-password" class="card hidden">
+        <h2>Change Password</h2>
+        <p class="subtitle">Enter your current password to set a new one</p>
+        <form id="passwordForm">
+          <div class="field">
+            <label for="curPassword">Current Password</label>
+            <input id="curPassword" type="password" placeholder="Current password" required />
+          </div>
+          <div class="field">
+            <label for="newPassword">New Password</label>
+            <input id="newPassword" type="password" placeholder="New password (min 6 chars)" required />
+          </div>
+          <div class="field">
+            <label for="newPasswordConfirm">Confirm New Password</label>
+            <input id="newPasswordConfirm" type="password" placeholder="Repeat new password" required />
+          </div>
+          <button type="submit" class="btn btn-primary" id="passwordSubmit">Update Password</button>
+        </form>
+      </div>
+
+      <!-- Users panel -->
+      <div id="panel-users" class="card hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+          <div>
+            <h2>All Users</h2>
+            <p class="subtitle" id="usersSubtitle">Loading…</p>
+          </div>
+          <button id="refreshUsersBtn" class="btn btn-outline">↻ Refresh</button>
+        </div>
+        <div id="usersTable"></div>
+      </div>
+
+      <!-- Danger zone panel -->
+      <div id="panel-danger" class="card hidden">
+        <h2>Danger Zone</h2>
+        <p class="subtitle">Irreversible actions — proceed with care</p>
+
+        <!-- Change username -->
+        <div class="danger-block">
+          <div class="danger-block-header">
+            <strong>Change Username</strong>
+            <span class="danger-tag tag-yellow">Moderate</span>
+          </div>
+          <p class="danger-desc">Your token stays valid; all sessions are updated automatically.</p>
+          <form id="usernameForm">
+            <div class="field-inline">
+              <input id="newUsername" type="text" placeholder="New username" required />
+              <button type="submit" class="btn btn-warn" id="usernameSubmit">Change</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Delete account -->
+        <div class="danger-block danger-block-red">
+          <div class="danger-block-header">
+            <strong>Delete Account</strong>
+            <span class="danger-tag tag-red">Permanent</span>
+          </div>
+          <p class="danger-desc">This will permanently delete your account and all sessions. This cannot be undone.</p>
+          <form id="deleteForm">
+            <div class="field-inline">
+              <input id="deletePassword" type="password" placeholder="Confirm your password" required />
+              <button type="submit" class="btn btn-danger" id="deleteSubmit">Delete</button>
+            </div>
+          </form>
         </div>
       </div>
-      <div class="info-box">
-        <span class="info-label">Session token</span>
-        <code id="tokenDisplay" class="token-text"></code>
-      </div>
+
     </section>
 
   </main>
