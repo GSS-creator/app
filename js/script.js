@@ -57,9 +57,11 @@ document.addEventListener('click', e => {
 
 // ── API helper ────────────────────────────────────────────────────────────────
 async function apiPost(path, body, headers = {}) {
+  // Send as text/plain to avoid CORS preflight (proxy blocks OPTIONS).
+  // The server accepts and JSON.parses the body regardless of Content-Type.
   const res = await fetch(`${API}${path}`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...headers },
+    headers: { 'Content-Type': 'text/plain', ...headers },
     body: JSON.stringify(body),
   });
   const data = await res.json();
@@ -142,7 +144,8 @@ logoutBtn.addEventListener('click', async () => {
   if (!currentToken) return;
   setLoading(logoutBtn, true, 'Logging out…');
   try {
-    await apiPost('/logout', {}, { Authorization: `Bearer ${currentToken}` });
+    // Pass token in body to avoid custom Authorization header triggering CORS preflight
+    await apiPost('/logout', { token: currentToken });
   } catch { /* ignore network errors on logout */ }
 
   currentToken = null;
